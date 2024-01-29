@@ -1,53 +1,23 @@
+// models/PastOrder.js
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
+const pastOrderSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', // Reference to the User model
     required: true,
   },
-  items: [
-    {
-      productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product', // Reference to the Product model
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
-  total: {
-    type: Number,
-    required: true,
-  },
+  // placeOrderData: {
+  //   type: Object,
+  //   required: true,
+  // },
   status: {
     type: String,
-    default: 'pending',
-    enum: ['pending', 'processing', 'shipped', 'delivered'],
+    default: 'delivered', // Assuming past orders are already delivered
+    enum: ['delivered'],
   },
-  address: {
-    country: String,
-    fullName: String,
-    mobileNum: String,
-    pincode: String,
-    houseName: String,
-    villName: String,
-    mandalName: String,
-    stateName: String,
-  },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-}, { timestamps: true }); // Add timestamps for createdAt and updatedAt
+}, { timestamps: true });
 
-const Order = mongoose.model('Order', orderSchema);
+const PastOrder = mongoose.model('PastOrder', pastOrderSchema);
 
-module.exports = Order;
+module.exports = PastOrder;
