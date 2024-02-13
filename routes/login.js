@@ -8,6 +8,7 @@ const User = require('../Models/User');
 // post user 
 router.post('/', async (req, res) => {
     try {
+        console.log(req.body)
         const user = await User.findOne({email: req.body.email});
 
         if (!user) {
@@ -16,10 +17,11 @@ router.post('/', async (req, res) => {
         else {
             
             if (user.password === req.body.password) {
-                res.status(500).json({
+                res.status(200).json({
                     message: 'User loggedin successfully!!!',
                     userDetails: {
-                        name: user.name,
+                        userId: user._id,
+                        username: user.username,
                         email: user.email,
                     },
                     jwtToken: 'bis6t336629weasiygkbejhwh3ers7dfztixusjhwebjsrd8f7xy6tuszewghrjsdgufy7'
@@ -32,7 +34,7 @@ router.post('/', async (req, res) => {
         }
     }
     catch(err) {
-        res.status(404).json({err_msg: "API Error occured while user try to login"});
+        res.status(500).json({err_msg: "API Error occured while user try to login"});
     }
 })
 

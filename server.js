@@ -4,11 +4,11 @@ const dotenv = require('dotenv');
 
 // importing routes 
 const signupRoute = require('./routes/signup');
-const signinRoute = require('./routes/signin');
+const loginRoute = require('./routes/login');
 const addressRoute = require('./routes/address');
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
-const pastordersRoutes = require('./routes/pastorders');
+
 
 dotenv.config();
 
@@ -29,11 +29,11 @@ app.use(cors());
 
 // using different routes 
 app.use('/signup', signupRoute);
-app.use('/signin', signinRoute);
+app.use('/login', loginRoute);
 app.use('/address', addressRoute);
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
-app.use('/pastorders',pastordersRoutes);
+
 
 
 app.listen(port, () => {

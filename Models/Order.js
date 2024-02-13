@@ -3,15 +3,8 @@ const mongoose = require('mongoose');
 
 //shema of order
 const orderSchema = new mongoose.Schema({
-  userId:{type:String,required:true},
-  items: [
-    {
-      name: { type: String, required: true },
-      quantity: { type: Number, required: true },
-      price: { type: Number, required: true },
-      image: { type: String },
-    }
-  ],
+  userId:{type: mongoose.Schema.ObjectId, ref: 'User', required:true},
+  products: [{type: mongoose.Schema.ObjectId, ref: 'Product'}],
   total: {
     type: Number,
     required: true,
@@ -21,17 +14,7 @@ const orderSchema = new mongoose.Schema({
     default: 'pending', // Default status when the order is created
     enum: ['pending', 'processing', 'shipped', 'delivered'], // Possible order statuses
   },
-  // Adding address fields to the order schema
-  address: {
-    country: { type: String },
-    fullName: { type: String },
-    mobileNum: { type: Number },
-    pincode: { type: Number },
-    houseName: { type: String },
-    villName: { type: String },
-    mandalName: { type: String },
-    stateName: { type: String },
-  },
+  address: {type: mongoose.Schema.ObjectId, ref: 'Address'}
 });
 
 const Order = mongoose.model('Order', orderSchema);

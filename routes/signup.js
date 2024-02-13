@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
     
             await user.save();
     
-            res.status(500).json({
+            res.status(200).json({
                 message: 'User created successfully!!!',
             });
         }
