@@ -4,12 +4,12 @@ const router = express.Router();
 const Product = require('../Models/Product');
 
 // Add Product
-router.post('/add', async (req, res) => {
+router.post('/createProduct', async (req, res) => {
   try {
     const { imgUrl, title, description, price } = req.body;
     const newProduct = new Product({ imgUrl, title, description, price });
     await newProduct.save();
-    res.json({ success: true, message: 'Product added successfully' });
+    res.json({ success: true, message: 'Product added successfully', productDetails: newProduct });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
@@ -19,7 +19,7 @@ router.post('/add', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find();
-    res.json({ success: true, data: products });
+    res.json({ success: true, message: "Products fetched successfully", products });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }

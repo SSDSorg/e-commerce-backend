@@ -13,7 +13,7 @@ router.post('/addAddress', async (req, res) => {
 
         await address.save();
 
-        res.status(200).json({message: 'Address added successfully'});
+        res.status(200).json({message: 'Address added successfully', addressDetails: address});
     }
     catch(err) {
         res.status(500).json({err_msg: 'API Error occured while adding address'});
@@ -30,7 +30,7 @@ router.get('/getAddress/:userId', async (req, res) => {
             res.status(404).json({err_msg: "Address not found"});
         }
         else {
-            res.status(200).json({message: 'Address fetched successfully', addressDetails: address});
+            res.status(200).json({message: 'Address fetched successfully', addressDetails: address, numberOfAddresses: address.length});
         }
     }
     catch(err) {

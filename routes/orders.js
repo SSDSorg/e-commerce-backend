@@ -6,16 +6,27 @@ const Order = require('../Models/Order');
 const Address = require('../Models/Address');
 
 
-// Place Order API (/api/orders/place):
-router.post('/orders/place', async (req, res) => {
+// // place oreder "manikanta"
+// router.post('/postOrder', async (req, res) => {
+//   try {
+//     const orders = await Order.findByIdAndUpdate
+//   }
+//   catch(err) {
+//     res.status(500).json({err_msg: "API Error occured while posting order"});
+//   }
+// })
+
+
+// Place Order API 
+router.post('/placeOrder', async (req, res) => {
   try {
     console.log('Request Body:', req.body);
-    const { userId, items, total,address } = req.body;
-    if (!userId || !items || !total || !address) {
-      return res.status(400).json({ success: false, message: 'Incomplete order information' });
-    }
+    const { userId, products, total, address } = req.body;
+    // if (!userId || !products || !total || !address) {
+    //   return res.status(400).json({ success: false, message: 'Incomplete order information' });
+    // }
 
-    const newOrder = new Order({ userId, items, total, address});
+    const newOrder = new Order({ userId, products, total, address});
     await newOrder.save();
 
     res.json({ success: true, orderId: newOrder._id, message: 'Order placed successfully' });
@@ -25,19 +36,20 @@ router.post('/orders/place', async (req, res) => {
   }
 });
 
-// Fetch Orders API (/api/orders/:userId):
-router.get('/orders/:userId', async (req, res) => {
+// Fetch Orders API 
+router.get('/getAllOrders/:userId', async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.params.userId });
-    res.status(200).json({ success: true, message: 'Orders fetched successfully', orders });
+    const orders = await Order.find({ userId: req.params.userId }).populate('products').populate('address');
+
+    res.status(200).json({ success: true, message: 'Orders fetched successfully', orders, NumberOfOrders: orders.length });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
-// Change Order Status API (/api/orders/status/:orderId):
-router.put('/orders/status/:orderId', async (req, res) => {
+// Change Order Status API 
+router.put('/status/:orderId', async (req, res) => {
   try {
     const orderId = req.params.orderId;
     const { status } = req.body;
